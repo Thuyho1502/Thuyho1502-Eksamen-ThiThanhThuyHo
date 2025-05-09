@@ -18,25 +18,25 @@ if(storeUser){
     } else{
         alert("Incorrect username or password");
     }
-}else{
+} else{
     
-try{
-    const response = await axios.get(apiUrl);
-    const user = response.data;
-    const matchedUser = user.find(user=> user.userName === userName && user.password === password);
-    
-    if(matchedUser){
-        localStorage.setItem("user",JSON.stringify(matchedUser));
-        alert("Login successful!");
-        window.location.href ="../index.html";   
-    }else{
-        alert("Incorrect username or password.");
+        try{
+            const response = await axios.get(apiUrl);
+            const user = response.data;
+            const matchedUser = user.find(user=> user.userName === userName && user.password === password);
+            
+            if(matchedUser){
+                localStorage.setItem("user",JSON.stringify(matchedUser));
+                alert("Login successful!");
+                window.location.href ="../index.html";   
+            }else{
+                alert("Incorrect username or password.");
+            }
+
+        }catch(error){
+            console.error("Login error:", error);
+            
+
+        }
     }
-
-}catch(error){
-    console.error("Login error:", error);
-    
-
-}
-}
 });

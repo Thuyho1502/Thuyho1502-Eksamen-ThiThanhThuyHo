@@ -3,16 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Register</title>
-    <link rel="stylesheet" href="Css/style.css">
+    <title>Dating App Home</title>
+    <link rel="stylesheet" href="/Css/style.css">
   
 </head>
 <body>
-    <h1>Welcome to the Dating App</h1>
-    <h2 id="wellcomeMessage">Hello</h2>
-    <button id="logOutBtn" class=" hidden">Logout</button>
-    
+
+    <h1>Welcome to the Dating App</h1> <br>
+
+<section>
+    <div id="userProfile" class="hidden">
+        <h2>My Profile</h2>
+        <div id="profileView">
+        <h4>Name: <span id="userName"></span></h4>
+        <h4>Age: <span id="userAge"></span></h4>
+        <h4>Gender: <span id="userGender"></span></h4>
+        <button id="editProfileBtn">Edit Profile</button>
+        <button id="logOutBtn">Logout</button>
+        </div>
+        
+       
+    </div>
+</section>
+        
+
+
+   
     <script src="index.js"></script>
-    <!-- <a href="Side1/login.html"> Go to Login</a> -->
+
+
+
 </body>
 </html>
