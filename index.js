@@ -21,16 +21,16 @@ const editAge = document.getElementById("editAge");
 const editGender = document.getElementById("editGender");
 
 viewProfileBtn.addEventListener("click",() =>{
-  //userProfileDiv.classList.remove("hidden");
+  userProfileDiv.classList.remove("hidden");
+  document.getElementById("matchedSection").classList.add("hidden");
   const user = JSON.parse(localStorage.getItem("user"));
 
-if (user && user._id) {
-  userProfileDiv.classList.remove("hidden");
-  displayProfile(user);
-} else {
-  alert("Please log in first.");
-  window.location.href = "Side1/login.html";
-}
+  if (user && user._id) {
+    displayProfile(user);
+  } else {
+    alert("Please log in first.");
+    window.location.href = "Side1/login.html";
+  }
 });
 
 
@@ -111,6 +111,8 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
 
   console.log("User updated!",updatedUser);
 });
+
+
 
 
 document.getElementById("logOutBtn").addEventListener("click", () => {

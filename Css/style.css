@@ -1,20 +1,18 @@
 body{
     text-align: center;
     margin: 50px;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
     
 }
 .hidden{
     display: none;
-}
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #fefefe;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 h1 {
@@ -23,31 +21,7 @@ h1 {
     color: #e94e77;
 }
 
-section {
-    width: 90%;
-    max-width: 600px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin-top: 20px;
-}
 
-#userProfile h2 {
-    text-align: center;
-    color: #444;
-}
-
-#profileView h4,
-#profileEdit h4 {
-    margin: 15px 0;
-    font-size: 1rem;
-}
-
-#profileView span {
-    font-weight: 600;
-    color: #555;
-}
 img{
     width: 200px; 
     height: 200px;
@@ -113,3 +87,20 @@ button:hover {
 #homeButtons button:hover {
   background-color: #ff1f4a;
 }
+
+.card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        text-align: center;
+        margin-top: 10px;
+        animation: fadeIn 0.5s ease-in-out;
+}
+.card img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+    
