@@ -15,22 +15,33 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         return;
     }
     const user ={
+        
         name : name,
         userName : userName,
         password: password,
+        image:"",
+        email:"",
+        telephone:"",
+        age:"",
+        gender:""
     }
     console.log(user);
     try{
         const response = await axios.post(apiUrl, user)
-        console.log(response.user);
+        //console.log(response.user);
+        //
+        const savedUser = response.data;
+        localStorage.setItem(userName, JSON.stringify(savedUser));
+        alert("Registration successful!");
+        window.location.href ="login.html";
     }catch(error){
         console.log("Can not register user",error);
     }
     
     
 
-    localStorage.setItem(userName, JSON.stringify(user));
+   /*  localStorage.setItem(userName, JSON.stringify(user));
     alert("Registration successfull! Please login.");
-    window.location.href = "login.html";
+    window.location.href = "login.html"; */
 });
 
