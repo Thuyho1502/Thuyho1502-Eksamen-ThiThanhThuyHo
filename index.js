@@ -1,4 +1,5 @@
 import { apiUrl } from "../Authentication/AUTH.js";
+const viewProfileBtn = document.getElementById("viewProfileBtn");
 
 const userProfileDiv = document.getElementById("userProfile");
 const profileView = document.getElementById("profileView");
@@ -19,8 +20,9 @@ const editName = document.getElementById("editName");
 const editAge = document.getElementById("editAge");
 const editGender = document.getElementById("editGender");
 
-
-const user = JSON.parse(localStorage.getItem("user"));
+viewProfileBtn.addEventListener("click",() =>{
+  //userProfileDiv.classList.remove("hidden");
+  const user = JSON.parse(localStorage.getItem("user"));
 
 if (user && user._id) {
   userProfileDiv.classList.remove("hidden");
@@ -29,6 +31,8 @@ if (user && user._id) {
   alert("Please log in first.");
   window.location.href = "Side1/login.html";
 }
+});
+
 
 
 function displayProfile(userData) {
@@ -44,6 +48,8 @@ function displayProfile(userData) {
 
 
 document.getElementById("editProfileBtn").addEventListener("click", () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   profileView.classList.add("hidden");
   profileEdit.classList.remove("hidden");
 
@@ -90,7 +96,7 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
     console.log("Update to crudcrud:", response.data);
     const newUser = { ...updatedUser, _id };
     
-     localStorage.setItem("user", JSON.stringify(newUser));
+    localStorage.setItem("user", JSON.stringify(newUser));
     localStorage.setItem(newUser.userName, JSON.stringify(newUser));
      displayProfile(newUser);
 
@@ -111,3 +117,5 @@ document.getElementById("logOutBtn").addEventListener("click", () => {
   localStorage.removeItem("user");
   window.location.href = "Side1/login.html";
 });
+
+
