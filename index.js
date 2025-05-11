@@ -23,6 +23,7 @@ const editGender = document.getElementById("editGender");
 viewProfileBtn.addEventListener("click",() =>{
   userProfileDiv.classList.remove("hidden");
   document.getElementById("matchedSection").classList.add("hidden");
+  document.getElementById("likedUsersSection").classList.add("hidden");
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (user && user._id) {
@@ -61,8 +62,6 @@ editEmail.value = user.email || "";
 editTelephone.value = user.telephone || "";
 editPassword.value = user.password || "";
 editImage.value = user.image || "";
-
-
 
 });
 

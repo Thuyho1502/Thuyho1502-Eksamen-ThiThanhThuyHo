@@ -3,28 +3,26 @@ import { apiUrl } from "../Authentication/AUTH.js";
 
 const userId = localStorage.getItem("user_id");
 
-
 const matchedBtn = document.getElementById("matchedDatingBtn");
 const matchedSection = document.getElementById("matchedSection");
-const randomuser = document.getElementById("randomUser");
+const saveFilter = document.getElementById("saveFilter");
 const matchContainer = document.getElementById("matchContainer");
 
 const genderSelect = document.getElementById("genderSelect");
 const minAgeInput = document.getElementById("minAge");
 const maxAgeInput= document.getElementById("maxAge");
 
-const viewProfileBtn = document.getElementById("viewProfileBtn");
 
+saveFilter.addEventListener("click",()=>{
+       saveFilterSettings();
 
-randomuser.addEventListener("click", showRandomFilterUser );
+} );
 
-[genderSelect, minAgeInput, maxAgeInput].forEach(input =>{
-    input.addEventListener("change",saveFilterSettings);
-});
 
 matchedBtn.addEventListener("click", () => {
     matchedSection.classList.remove("hidden");
     document.getElementById("userProfile").classList.add("hidden");
+    document.getElementById("likedUsersSection").classList.add("hidden");
     loadFilterSetting();
     showRandomFilterUser();
 
@@ -79,7 +77,6 @@ async function loadFilterSetting() {
     }
 }
 
-
 async function fetchUser() {
     
     try{
@@ -96,6 +93,7 @@ async function fetchUser() {
 
 
 async function showRandomFilterUser() {
+    
     const existingUser = JSON.parse(localStorage.getItem(`currentUser_${userId}`));
     if (existingUser) {
         renderUserCard(existingUser);
@@ -117,12 +115,13 @@ async function showRandomFilterUser() {
         user.dob.age > filter.maxAge
     );
 
+
     console.log("Matched user:", user);
     localStorage.setItem(`currentUser_${userId}`, JSON.stringify(user));
+        
     renderUserCard(user);
+    
 }
-
-
 
 function renderUserCard(user) {
     const card = document.createElement("div");
@@ -139,6 +138,7 @@ function renderUserCard(user) {
             <button class="like-btn">Like</button> 
             <button class="skip-btn">Skip</button>        
         </div>
+        
     `;
 
     matchContainer.innerHTML = "";
@@ -172,6 +172,48 @@ function addUserToLike(user){
         alert("You have already liked this user!");
     }
 }
+
+const likedUsersBtn = document.getElementById("likedUsersBtn");
+const likedUsersSection = document.getElementById("likedUsersSection");
+const likedUsersList = document.getElementById("likeUsersList");
+
+likedUsersBtn.addEventListener("click",() =>{
+    likedUsersSection.classList.remove("hidden");
+    document.getElementById("userProfile").classList.add("hidden");
+    document.getElementById("matchedSection").classList.add("hidden");
+
+    displayLikedUsers();
+});
+
+function displayLikedUsers(){
+    likedUsersList.innerHTML ="";
+    const likedUsers = JSON.parse(localStorage.getItem("likedUsers")) || [];
+
+    if(likedUsers.length === 0){
+        likedUsersList.innerHTML = "<p>No liked users yet.</p>";
+        return;
+    }
+    
+    likedUsers.forEach(user => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+            <img src="${user.picture.large}" alt="User picture">
+            <h3>${user.name.title} ${user.name.first} ${user.name.last}</h3>
+            <p>Gender: ${user.gender}</p>
+            <p>Age: ${user.dob.age}</p>
+            <p>Email: ${user.email}</p>
+            <p>Phone: ${user.phone}</p>
+            <hr>
+        `;
+        likedUsersList.appendChild(card);
+    });
+
+}
+
+
+
+
 
 
 
