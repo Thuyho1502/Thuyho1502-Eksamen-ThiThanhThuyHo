@@ -28,20 +28,21 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     console.log(user);
     try{
         const response = await axios.post(apiUrl, user)
-        //console.log(response.user);
-        //
+        
         const savedUser = response.data;
-        localStorage.setItem(userName, JSON.stringify(savedUser));
+        if (savedUser && savedUser._id) {
+        localStorage.setItem("user_id", savedUser._id);
+        localStorage.setItem("user", JSON.stringify(savedUser));
+        console.log("Registration successful!");
         alert("Registration successful!");
-        window.location.href ="login.html";
+        window.location.href = "login.html";
+        } else {
+        console.error("No _id found in response!", savedUser);
+        }
     }catch(error){
         console.log("Can not register user",error);
     }
     
     
-
-   /*  localStorage.setItem(userName, JSON.stringify(user));
-    alert("Registration successfull! Please login.");
-    window.location.href = "login.html"; */
 });
 
