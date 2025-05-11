@@ -1,4 +1,5 @@
 import { apiUrl } from "../Authentication/AUTH.js";
+import { likeUserUrl} from "../Authentication/AUTH.js";
 
 
 const userId = localStorage.getItem("user_id");
@@ -159,62 +160,40 @@ function renderUserCard(user) {
     });
 }
 
-function addUserToLike(user){
-    let likedUsers = JSON.parse(localStorage.getItem("likedUsers")) ||[];
-    const isUserAlreadyLiked = likedUsers.some(likedUsers => likedUsers.name === user.name );
+async function addUserToLike(user) {
+    const userId = localStorage.getItem("user_id");
 
-    if(!isUserAlreadyLiked){
-        likedUsers.push(user);
-        
-        localStorage.setItem("likedUsers",JSON.stringify(likedUsers));
-        alert("User liked !");
-    }else{
-        alert("You have already liked this user!");
+    try {
+        const res = await axios.get(likeUserUrl);
+        const existingUser = res.data.find(entry => entry.userId === userId);
+
+        if (existingUser) {
+            const alreadyLiked = existingUser.likedUsers.some(u => u.email === user.email);
+
+            if (alreadyLiked) {
+                alert("You have already liked this user!");
+                return;
+            }
+
+            existingUser.likedUsers.push(user);
+
+            await axios.put(`${likeUserUrl}/${existingUser._id}`, {
+                userId: userId,
+                likedUsers: existingUser.likedUsers
+            });
+
+        } else {
+            // Nếu user chưa có danh sách likedUsers trên API
+            await axios.post(likeUserUrl, {
+                userId: userId,
+                likedUsers: [user]
+            });
+        }
+
+        alert("User liked!");
+
+    } catch (err) {
+        console.error("Error saving liked user:", err);
+        alert("Failed to save liked user.");
     }
 }
-
-const likedUsersBtn = document.getElementById("likedUsersBtn");
-const likedUsersSection = document.getElementById("likedUsersSection");
-const likedUsersList = document.getElementById("likeUsersList");
-
-likedUsersBtn.addEventListener("click",() =>{
-    likedUsersSection.classList.remove("hidden");
-    document.getElementById("userProfile").classList.add("hidden");
-    document.getElementById("matchedSection").classList.add("hidden");
-
-    displayLikedUsers();
-});
-
-function displayLikedUsers(){
-    likedUsersList.innerHTML ="";
-    const likedUsers = JSON.parse(localStorage.getItem("likedUsers")) || [];
-
-    if(likedUsers.length === 0){
-        likedUsersList.innerHTML = "<p>No liked users yet.</p>";
-        return;
-    }
-    
-    likedUsers.forEach(user => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.innerHTML = `
-            <img src="${user.picture.large}" alt="User picture">
-            <h3>${user.name.title} ${user.name.first} ${user.name.last}</h3>
-            <p>Gender: ${user.gender}</p>
-            <p>Age: ${user.dob.age}</p>
-            <p>Email: ${user.email}</p>
-            <p>Phone: ${user.phone}</p>
-            <hr>
-        `;
-        likedUsersList.appendChild(card);
-    });
-
-}
-
-
-
-
-
-
-
-
