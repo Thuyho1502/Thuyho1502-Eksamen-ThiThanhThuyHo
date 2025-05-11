@@ -103,4 +103,21 @@ button:hover {
     width: 100px;
     height: 100px;
 }
-    
+.card-button{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.like-btn{
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+.skip-btn{
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    padding: 10px 20px;
+}

@@ -43,9 +43,11 @@ function loadFilterSetting(){
 
 
 async function fetchUser() {
+    
     try{
         const response = await fetch("https://randomuser.me/api/");
         const data = await response.json();
+        console.log(data);
         return data.results[0];
     }
     catch(error){
@@ -70,8 +72,8 @@ do{
 
  while(
     (filter.gender && user.gender !== filter.gender) ||
-    user.dob.age < filter.minAge ||
-    user.dob.age > filter.maxAge
+    user.dob.age <= filter.minAge ||
+    user.dob.age >= filter.maxAge
         
     
  )
@@ -88,6 +90,11 @@ do{
         <p>Email: ${user.email}</p>
         <p>Address: ${user.location.city}, ${user.location.country}</p>
         <p>Phone: ${user.phone}</p>
+        <div class="card-button">
+        <button class="like-btn"> Like </button> 
+        <button class="skip-btn"> Skip </button>        
+        </div>
+
     `;
 
     matchContainer.innerHTML = "";
