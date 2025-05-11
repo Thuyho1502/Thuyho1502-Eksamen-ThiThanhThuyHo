@@ -11,16 +11,17 @@ const maxAgeInput= document.getElementById("maxAge");
 
 const viewProfileBtn = document.getElementById("viewProfileBtn");
 
-matchedBtn.addEventListener("click", () => {
-    matchedSection.classList.remove("hidden");
-    document.getElementById("userProfile").classList.add("hidden");
-    loadFilterSetting();
-});
 
 randomuser.addEventListener("click", showRandomFilterUser );
 
 [genderSelect, minAgeInput, maxAgeInput].forEach(input =>{
     input.addEventListener("change",saveFilterSettings);
+});
+
+matchedBtn.addEventListener("click", () => {
+    matchedSection.classList.remove("hidden");
+    document.getElementById("userProfile").classList.add("hidden");
+    loadFilterSetting();
 });
 function saveFilterSettings(){
     const filters ={
@@ -30,18 +31,15 @@ function saveFilterSettings(){
     };
     localStorage.setItem("userFilters", JSON.stringify(filters));
 }
-
 function loadFilterSetting(){
     const saved = JSON.parse(localStorage.getItem("userFilters"));
     if(saved){
         genderSelect.value = saved.gender || "";
-        minAgeInput.value = saved.minAgeInput ||18;
-        maxAgeInput.value = saved.maxAgeInput ||100;
+        minAgeInput.value = saved.minAge ||18;
+        maxAgeInput.value = saved.maxAge ||100;
 
     }
 }
-
-
 async function fetchUser() {
     
     try{
@@ -72,13 +70,14 @@ do{
 
  while(
     (filter.gender && user.gender !== filter.gender) ||
-    user.dob.age <= filter.minAge ||
-    user.dob.age >= filter.maxAge
+    user.dob.age < filter.minAge ||
+    user.dob.age > filter.maxAge
         
     
  )
   console.log("Matched user:", user);
  
+  
  
  const card = document.createElement("div");
     card.classList.add("card");
@@ -99,5 +98,32 @@ do{
 
     matchContainer.innerHTML = "";
     matchContainer.appendChild(card);
+
+
+    const likeBtn = card.querySelector(".like-btn");
+    const skipBtn = card.querySelector(".skip-btn");
+
+    likeBtn.addEventListener("click",() =>{
+        addUserToLike(user);
+    });
+    skipBtn.addEventListener("click",() =>{
+        showRandomFilterUser();
+    });
+
 }
  
+function addUserToLike(user){
+    let likedUsers = JSON.parse(localStorage.getItem("likedUsers")) ||[];
+    const isUserAlreadyLiked = likedUsers.some(likedUsers => likedUsers.name === user.name );
+
+    if(!isUserAlreadyLiked){
+        likedUsers.push(user);
+        
+        localStorage.setItem("likedUsers",JSON.stringify(likedUsers));
+        alert("User liked !");
+    }else{
+        alert("You have already liked this user!");
+    }
+}
+
+
