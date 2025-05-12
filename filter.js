@@ -151,12 +151,15 @@ function renderUserCard(user) {
     likeBtn.addEventListener("click", () => {
         addUserToLike(user);
         localStorage.removeItem(`currentUser_${userId}`);
-        matchContainer.innerHTML = "<p>You liked this user!</p>";
-    });
+        matchContainer.innerHTML = "<p>You liked this user!</p>"; 
+   
+   });
 
     skipBtn.addEventListener("click", () => {
         localStorage.removeItem(`currentUser_${userId}`);
-        showRandomFilterUser();
+        showRandomFilterUser(); 
+
+
     });
 }
 
