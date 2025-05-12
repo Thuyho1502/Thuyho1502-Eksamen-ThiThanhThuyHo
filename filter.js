@@ -191,6 +191,7 @@ async function addUserToLike(user) {
         }
 
         alert("User liked!");
+        console.log("Add user to like list",user);
 
     } catch (err) {
         console.error("Error saving liked user:", err);

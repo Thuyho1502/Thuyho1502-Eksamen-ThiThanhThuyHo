@@ -17,6 +17,7 @@ async function displayLikedUsers() {
 
     const userId = localStorage.getItem("user_id");
 
+
     try {
         const res = await axios.get(likeUserUrl);
         const userData = res.data.find(entry => entry.userId === userId);
@@ -25,6 +26,8 @@ async function displayLikedUsers() {
             likedUsersList.innerHTML = "<p>No liked users yet.</p>";
             return;
         }
+
+        localStorage.setItem(`likedUsers_${userId}`, JSON.stringify(userData.likedUsers));
 
         userData.likedUsers.forEach(user => {
             const card = document.createElement("div");
@@ -54,6 +57,36 @@ async function displayLikedUsers() {
         console.error("Failed to load liked users:", err);
         likedUsersList.innerHTML = "<p>Error loading liked users.</p>";
     }
+}
+
+async function deleteLikedUser(userToDelete) {
+    const userId = localStorage.getItem("user_id");
+
+    try{
+        const response = await axios.get(likeUserUrl);
+        const userData = response.data.find(entry =>entry.userId === userId);
+
+        if(!userData){
+            return;
+        }
+        const updatedLikedUsers  = userData.likedUsers.filter(
+            user =>user.email !== userToDelete.email
+        );
+        await axios.put(`${likeUserUrl}/${userData._id}`,{
+            userId : userId,
+            likedUsers : updatedLikedUsers
+
+        });
+        
+        localStorage.setItem(`likedUsers_${userId}`,JSON.stringify(updatedLikedUsers));
+        console.log("Succesful delete user:",userToDelete);
+
+        displayLikedUsers();
+
+    }catch(err){
+        console.error("Fail to delete liked user:",err);
+    }
+    
 }
 
 
