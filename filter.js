@@ -1,6 +1,6 @@
 import { apiUrl } from "../Authentication/AUTH.js";
 import { likeUserUrl} from "../Authentication/AUTH.js";
-
+import { canLike, decrementLike,canSkip,decrementSkip } from "./swipeLimit.js";
 
 const userId = localStorage.getItem("user_id");
 
@@ -55,14 +55,14 @@ async function saveFilterSettings() {
 }
 
 async function loadFilterSetting() {
-    // Check local storage first
+   
     const saved = JSON.parse(localStorage.getItem("userFilters"));
     if (saved && saved.userId === userId) {
         genderSelect.value = saved.gender || "";
         minAgeInput.value = saved.minAge || 18;
         maxAgeInput.value = saved.maxAge || 100;
     } else {
-        // If no filter settings in local storage, check the API
+       
         try {
             const response = await axios.get(apiUrl);
             const userFilter = response.data.find(f => f.userId === userId);
@@ -149,16 +149,27 @@ function renderUserCard(user) {
     const skipBtn = card.querySelector(".skip-btn");
 
     likeBtn.addEventListener("click", () => {
-        addUserToLike(user);
-        localStorage.removeItem(`currentUser_${userId}`);
-        matchContainer.innerHTML = "<p>You liked this user!</p>"; 
+        if(canLike()){
+            addUserToLike(user);
+            decrementLike();
+            localStorage.removeItem(`currentUser_${userId}`);
+            matchContainer.innerHTML = "<p>You liked this user!</p>"; 
+        } else{
+            alert("You have run out of Likes for today. Please come back in 24 hours.");
+        }
+        
+       
    
    });
 
     skipBtn.addEventListener("click", () => {
-        localStorage.removeItem(`currentUser_${userId}`);
-        showRandomFilterUser(); 
-
+        if(canSkip()){
+            decrementSkip();
+            localStorage.removeItem(`currentUser_${userId}`);
+            showRandomFilterUser();
+        }else{
+            alert('You have run out of "Skip" attempts for today. Please come back in 24 hours.');
+        }
 
     });
 }

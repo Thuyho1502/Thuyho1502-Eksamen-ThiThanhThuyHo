@@ -1,4 +1,3 @@
-import { jsx } from "react/jsx-runtime";
 
 const maxLikesPerDay = 5;
 const maxSkipsPerDay = 20;
@@ -26,3 +25,34 @@ function initializeSwipeData(){
     }
     return data;
 }
+
+function canLike(){
+    const data = initializeSwipeData();
+    return data.remainingLikes >0;
+}
+
+function decrementLike(){
+    const data = initializeSwipeData();
+    if (data.remainingLikes >0){
+        data.remainingLikes -=1;
+        localStorage.setItem(swipeDataKey,JSON.stringify(data));
+        return true;  
+    }
+    return false;
+}
+
+function canSkip(){
+    const data = initializeSwipeData();
+    return data.remainigSkips>0;
+}
+function decrementSkip(){
+    const data = initializeSwipeData();
+    if(data.remainigSkips >0){
+        data.remainigSkips -=1;
+        localStorage.setItem(swipeDataKey,JSON.stringify(data));
+        return true;
+    }
+    return false 
+}
+
+export{canLike,decrementLike, canSkip,decrementSkip};
