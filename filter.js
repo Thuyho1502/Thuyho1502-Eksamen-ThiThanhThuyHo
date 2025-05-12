@@ -168,7 +168,7 @@ async function addUserToLike(user) {
         const existingUser = res.data.find(entry => entry.userId === userId);
 
         if (existingUser) {
-            const alreadyLiked = existingUser.likedUsers.some(u => u.email === user.email);
+            const alreadyLiked = existingUser.likedUsers.some(u => u.name === user.name);
 
             if (alreadyLiked) {
                 alert("You have already liked this user!");
@@ -183,7 +183,7 @@ async function addUserToLike(user) {
             });
 
         } else {
-            // Nếu user chưa có danh sách likedUsers trên API
+            
             await axios.post(likeUserUrl, {
                 userId: userId,
                 likedUsers: [user]

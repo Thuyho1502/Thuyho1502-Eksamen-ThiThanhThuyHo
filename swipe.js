@@ -41,18 +41,20 @@ async function displayLikedUsers() {
                 </div>
             `;
             likedUsersList.appendChild(card);
+            const deleteBtn = card.querySelector(".card-button1");
+            deleteBtn.addEventListener("click",() =>{
+                deleteLikedUser(user);
+            });
+       
+ 
         });
+        
 
     } catch (err) {
         console.error("Failed to load liked users:", err);
         likedUsersList.innerHTML = "<p>Error loading liked users.</p>";
     }
 }
-
-
-
-
-
 
 
 
