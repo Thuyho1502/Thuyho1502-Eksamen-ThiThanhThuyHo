@@ -11,7 +11,7 @@ const password = document.getElementById("password").value;
         try{
             const response = await axios.get(apiUrl);
             const user = response.data;
-            const matchedUser = user.find
+            const matchedUser = user.findgigi
             (user=> user.userName === userName && user.password === password);
             
             if(matchedUser){
