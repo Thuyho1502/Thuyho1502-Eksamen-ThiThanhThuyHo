@@ -1,4 +1,4 @@
-import { apiUrl } from "../Authentication/AUTH.js";
+//import { apiUrl } from "../Authentication/AUTH.js";
 import {likeUserUrl } from "../Authentication/AUTH.js";
 
 const likedUsersBtn = document.getElementById("likedUsersBtn");

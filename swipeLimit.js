@@ -1,28 +1,33 @@
 
+const userId = localStorage.getItem("user_id");
 const maxLikesPerDay = 5;
 const maxSkipsPerDay = 20;
-const swipeDataKey ='dailySwipeData';
+const swipeDataKey = `dailySwipeData_${userId}`;
+
 
 function initializeSwipeData(){
     const existingData = localStorage.getItem(swipeDataKey);
     const now = Date.now();
 
     if(!existingData){
-        const data ={
-            remainingLikes : maxLikesPerDay,
-            remainigSkips : maxSkipsPerDay,
-            resetTime : now + 24*60*6*1000
-        };
+        const data = {
+        remainingLikes: maxLikesPerDay,
+        remainingSkips: maxSkipsPerDay,  
+        resetTime: now + 24 * 60 * 60 * 1000
+    };
+
         localStorage.setItem(swipeDataKey,JSON.stringify(data));
         return data;
     }
     const data = JSON.parse(existingData);
-    if(now >= data.resetTime){
-        data.remainingLikes = maxLikesPerDay,
-        data.remainigSkips = maxSkipsPerDay,
-        data.resetTime = now +24*60*60*1000;
-        localStorage.setItem(swipeDataKey,JSON.stringify(data));
-    }
+
+    if (now >= data.resetTime) {
+    data.remainingLikes = maxLikesPerDay;
+    data.remainingSkips = maxSkipsPerDay; 
+    data.resetTime = now + 24 * 60 * 60 * 1000;
+    localStorage.setItem(swipeDataKey, JSON.stringify(data));
+}
+
     return data;
 }
 
@@ -33,26 +38,34 @@ function canLike(){
 
 function decrementLike(){
     const data = initializeSwipeData();
+
     if (data.remainingLikes >0){
         data.remainingLikes -=1;
         localStorage.setItem(swipeDataKey,JSON.stringify(data));
+        
+
         return true;  
     }
     return false;
 }
 
-function canSkip(){
+function canSkip() {
     const data = initializeSwipeData();
-    return data.remainigSkips>0;
+    
+    return data.remainingSkips > 0; 
 }
-function decrementSkip(){
+
+function decrementSkip() {
     const data = initializeSwipeData();
-    if(data.remainigSkips >0){
-        data.remainigSkips -=1;
-        localStorage.setItem(swipeDataKey,JSON.stringify(data));
+
+    if (data.remainingSkips > 0) { 
+        data.remainingSkips -= 1;
+        localStorage.setItem(swipeDataKey, JSON.stringify(data));
+        
         return true;
     }
-    return false 
+    return false;
 }
+
 
 export{canLike,decrementLike, canSkip,decrementSkip};

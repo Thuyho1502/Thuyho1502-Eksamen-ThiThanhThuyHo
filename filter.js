@@ -1,6 +1,6 @@
 import { apiUrl } from "../Authentication/AUTH.js";
 import { likeUserUrl} from "../Authentication/AUTH.js";
-import { canLike, decrementLike,canSkip,decrementSkip } from "./swipeLimit.js";
+import { canLike, decrementLike,canSkip,decrementSkip} from "./swipeLimit.js";
 
 const userId = localStorage.getItem("user_id");
 
@@ -20,11 +20,14 @@ saveFilter.addEventListener("click",()=>{
 } );
 
 
-matchedBtn.addEventListener("click", () => {
+matchedBtn.addEventListener("click", async() => {
     matchedSection.classList.remove("hidden");
     document.getElementById("userProfile").classList.add("hidden");
     document.getElementById("likedUsersSection").classList.add("hidden");
-    loadFilterSetting();
+    
+     console.log("Matched Dating clicked");
+
+     loadFilterSetting();
     showRandomFilterUser();
 
 });
@@ -149,7 +152,7 @@ function renderUserCard(user) {
     const skipBtn = card.querySelector(".skip-btn");
 
     likeBtn.addEventListener("click", () => {
-        if(canLike()){
+        if( canLike()){
             addUserToLike(user);
             decrementLike();
             localStorage.removeItem(`currentUser_${userId}`);
@@ -163,7 +166,10 @@ function renderUserCard(user) {
    });
 
     skipBtn.addEventListener("click", () => {
-        if(canSkip()){
+        console.log("Skip button clicked");
+         console.log("canSkip():", canSkip());
+        if( canSkip()){
+            console.log("Decrementing skip and loading new user...");
             decrementSkip();
             localStorage.removeItem(`currentUser_${userId}`);
             showRandomFilterUser();
