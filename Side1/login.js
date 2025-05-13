@@ -11,14 +11,14 @@ const password = document.getElementById("password").value;
         try{
             const response = await axios.get(apiUrl);
             const user = response.data;
-            const matchedUser = user.findgigi
+            const matchedUser = user.find
             (user=> user.userName === userName && user.password === password);
             
             if(matchedUser){
                 localStorage.setItem("user_id",matchedUser._id);
                 localStorage.setItem("user",JSON.stringify(matchedUser));
                 alert("Login successful!");
-                window.location.href ="../index.html";   
+                window.location.href ="../Side2/index.html";   
             }else{
                 alert("Incorrect username or password.");
             }
